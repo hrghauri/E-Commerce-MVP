@@ -106,8 +106,15 @@ const decrementFromCart = async (cartId, itemId) => {
   return stringifiedCart;
 };
 
+const changeCartStatus = async (cartId, status) => {
+  let cart = await getCartById(cartId);
+  cart.status = status;
+  return cart.save();
+};
+
 module.exports = {
   createCart,
   incrementInCart,
-  decrementFromCart
+  decrementFromCart,
+  changeCartStatus
 };
