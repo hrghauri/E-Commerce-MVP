@@ -2,3 +2,4 @@ Back-End/node_modules
 Back-End/mongoDBConfig/key.js
 Front-End/node_modules
 .DS_Store
+*.DS_Store
