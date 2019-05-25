@@ -1,5 +1,5 @@
-Back-End/node_modules
-Back-End/mongoDBConfig/key.js
-Front-End/node_modules
+Back-End-ECommerce/node_modules
+Back-End-ECommerce/mongoDBConfig/key.js
+Front-End-ECommerce/node_modules
 .DS_Store
 *.DS_Store
