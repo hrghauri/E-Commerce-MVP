@@ -33,10 +33,7 @@ appRouter.use('/orders', ordersRouter);
 
 //If none of the routes above matched
 appRouter.use((req, res, next) => {
-  console.log('haah');
-  let err = new Error('Resource Nots Found');
-  err.status = 404;
-  next(err);
+  res.status(404).send('Resource not Found');
 });
 
 //Error Handling

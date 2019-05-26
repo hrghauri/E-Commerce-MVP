@@ -13,6 +13,8 @@ const createOrder = async (req, res, next) => {
       clientTime,
       serverTime
     );
+    console.log(result);
+
     if (!result) {
       let error = new Error('cartId appears to be invalid');
       error.status = 400;

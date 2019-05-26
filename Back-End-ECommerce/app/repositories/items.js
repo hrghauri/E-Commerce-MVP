@@ -8,6 +8,11 @@ const getItemById = itemId => {
   return Item.findById(itemId).exec();
 };
 
+const getItemByIdForOutsiderWorld = async itemId => {
+  const item = await getItemById(itemId);
+  return JSON.parse(JSON.stringify(item));
+};
+
 const decrementItemInventory = async itemId => {
   const item = await getItemById(itemId);
   item.inventory--;
@@ -30,5 +35,6 @@ module.exports = {
   getItemById,
   decrementItemInventory,
   createItem,
-  incrementItemInventory
+  incrementItemInventory,
+  getItemByIdForOutsiderWorld
 };
