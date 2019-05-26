@@ -2,9 +2,14 @@
   "name": "back-end-ecommerce",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": ">=v8.15.1 <11.0.0",
+    "npm": ">=6.4.1 <7.0.0 "
+  },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "Haris Ghauri",
   "license": "ISC",
@@ -12,6 +17,8 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.0",
-    "mongoose": "^5.5.11"
+    "googleapis": "^40.0.0",
+    "mongoose": "^5.5.11",
+    "nodemailer": "^6.2.1"
   }
 }

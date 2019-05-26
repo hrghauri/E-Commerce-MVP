@@ -45,6 +45,8 @@ class App extends Component {
   };
 
   _getAllItems = async () => {
+    console.log('m called');
+
     try {
       const itemsArray = (await itemsService.getAllItems()).items;
       const items = itemsArray.reduce((acc, currentItem) => {
@@ -73,7 +75,10 @@ class App extends Component {
           else result = await cartService.createCart(itemId);
           const cart = result.cart;
           localStorage.setItem('cartId', cart._id);
+          let items = this.state.items;
+          items[itemId].inventory--;
           this.setState({
+            items,
             cart,
             transactionInProcess: false
           });
@@ -101,7 +106,10 @@ class App extends Component {
           );
           const cart = result.cart;
           localStorage.setItem('cartId', cart._id);
+          let items = this.state.items;
+          items[itemId].inventory++;
           this.setState({
+            items,
             cart,
             transactionInProcess: false
           });
@@ -116,7 +124,11 @@ class App extends Component {
   };
 
   completeBuyingProcess = async email => {
+    const setStateAsync = updater =>
+      new Promise(resolve => this.setState(updater, resolve));
+
     try {
+      await setStateAsync({ transactionInProcess: true });
       await orderService.createOrder(
         localStorage.getItem('cartId'),
         email,
@@ -124,8 +136,9 @@ class App extends Component {
       );
       localStorage.clear();
       this._getAllItems();
-      this.setState({ cart: {} });
+      await setStateAsync({ transactionInProcess: false, cart: {} });
     } catch (error) {
+      await setStateAsync({ transactionInProcess: false });
       console.log(error);
     }
   };
@@ -160,6 +173,15 @@ class App extends Component {
 
     const item = this.state.items[this.state.modalItemId];
 
+    const productImageStyle = {
+      width: '185px',
+      height: '230px',
+      backgroundPosition: '50% 50%',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      justifyContent: 'center'
+    };
+
     return (
       <div>
         <Modal
@@ -173,7 +195,11 @@ class App extends Component {
           >
             {item.title}
           </ModalHeader>
-          <img src={item.imageUrl} alt="Product Picture" />
+          <img
+            src={item.imageUrl}
+            style={productImageStyle}
+            alt="Product Picture"
+          />
           <ModalBody>{item.description}</ModalBody>
           <ModalFooter>
             <p style={{ position: 'relative', right: '200px' }}>

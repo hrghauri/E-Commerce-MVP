@@ -1,6 +1,11 @@
 Back-End-ECommerce/node_modules
 Back-End-ECommerce/mongoDBConfig/key.js
 
+Back-End-ECommerce/app.yaml
+
+
+Back-End-ECommerce/app/services/emailSecrets.js
+
 .DS_Store
 *.DS_Store
 
@@ -20,6 +25,7 @@ front-end-ecommerce/coverage
 # production
 front-end-ecommerce/build
 
+
 # misc
 *.DS_Store
 *.env.local
@@ -30,3 +36,12 @@ front-end-ecommerce/build
 front-end-ecommerce/npm-debug.log*
 front-end-ecommerce/yarn-debug.log*
 front-end-ecommerce/yarn-error.log*
+
+front-end-ecommerce/app.yaml
+
+front-end-ecommerce/src/api/api.js
+
+
+
+
+
