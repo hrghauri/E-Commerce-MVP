@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, Label, CardImg } from 'reactstrap';
+import { Card, CardBody, Label } from 'reactstrap';
 import Button from 'reactstrap-button-loader';
 
 const ProductCard = ({
@@ -50,14 +50,14 @@ const ProductCard = ({
   };
 
   const cardImageStyle = () => {
-    return !transactionInProcess ? { cursor: 'pointer' } : {};
+    return !transactionInProcess
+      ? { cursor: 'pointer', ...styles.productImage }
+      : { ...styles.productImage };
   };
 
   return (
     <Card style={{ ...styles.productCard }}>
-      <CardImg
-        top
-        width="100%"
+      <img
         src={imageUrl}
         alt="Product Picture"
         onClick={!transactionInProcess ? popUpOnClickLocal : () => {}}
@@ -80,7 +80,15 @@ const ProductCard = ({
 const styles = {
   productCard: {
     display: 'inline-block',
-    maxWidth: '200px'
+    width: '185px'
+  },
+  productImage: {
+    width: '185px',
+    height: '230px',
+    backgroundPosition: '50% 50%',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    justifyContent: 'center'
   }
 };
 

@@ -173,6 +173,15 @@ class App extends Component {
 
     const item = this.state.items[this.state.modalItemId];
 
+    const productImageStyle = {
+      width: '185px',
+      height: '230px',
+      backgroundPosition: '50% 50%',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      justifyContent: 'center'
+    };
+
     return (
       <div>
         <Modal
@@ -186,7 +195,11 @@ class App extends Component {
           >
             {item.title}
           </ModalHeader>
-          <img src={item.imageUrl} alt="Product Picture" />
+          <img
+            src={item.imageUrl}
+            style={productImageStyle}
+            alt="Product Picture"
+          />
           <ModalBody>{item.description}</ModalBody>
           <ModalFooter>
             <p style={{ position: 'relative', right: '200px' }}>
