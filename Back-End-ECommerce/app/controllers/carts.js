@@ -1,7 +1,9 @@
 const cartsRepository = require('../repositories/cart');
 
 const createCart = async (req, res, next) => {
+  console.log(req.body);
   const itemId = req.body.itemId;
+  console.log(itemId);
 
   try {
     const result = await cartsRepository.createCart(itemId);
@@ -31,6 +33,7 @@ const incrementInCart = async (req, res, next) => {
       next(error);
       return;
     }
+
     res.status(200).send({ cart: result });
   } catch (error) {
     next(error);
@@ -56,8 +59,24 @@ const decrementFromCart = async (req, res, next) => {
   }
 };
 
+const getCartById = async (req, res, next) => {
+  const cartId = req.params.cartId;
+  try {
+    const result = await cartsRepository.getCartByIdForOutsideWorld(cartId);
+    if (!result) {
+      let error = new Error('Cart does not exist');
+      error.status = 404;
+      return next(error);
+    }
+    return res.status(200).send({ cart: result });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createCart,
   incrementInCart,
-  decrementFromCart
+  decrementFromCart,
+  getCartById
 };

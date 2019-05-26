@@ -28,6 +28,19 @@ const getCartById = async cartId => {
   return Cart.findById(cartId).exec();
 };
 
+const getCartByIdForOutsideWorld = async cartId => {
+  let cart = await getCartById(cartId);
+
+  cart = JSON.parse(JSON.stringify(cart));
+  delete cart.status;
+  cart.itemsQuantities = cart.itemsQuantities.reduce((acc, itemQuantity) => {
+    acc[itemQuantity.item] = itemQuantity.quantity;
+    return acc;
+  }, {});
+
+  return cart;
+};
+
 const incrementInCart = async (cartId, itemId) => {
   let [cart, item] = await Promise.all([
     getCartById(cartId),
@@ -116,5 +129,7 @@ module.exports = {
   createCart,
   incrementInCart,
   decrementFromCart,
-  changeCartStatus
+  changeCartStatus,
+  getCartById,
+  getCartByIdForOutsideWorld
 };
