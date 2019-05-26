@@ -15,8 +15,6 @@ export default function CartCard({
   transactionInProcess
 }) {
   const renderButtons = () => {
-    console.log(inventory);
-
     let incrementDisabled;
     let decrementDisabled;
     if (transactionInProcess) {
@@ -48,7 +46,7 @@ export default function CartCard({
 
   return (
     <div style={parentStyle}>
-      <img style={imageStyle} src={imageUrl} />
+      <img style={imageStyle} src={imageUrl} alt="Product Picture" />
       <div style={{ ...childStyle, ...contentStyle }}>
         <div style={titleStyle}>{title} </div>
         <div>{description}</div>

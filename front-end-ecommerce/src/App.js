@@ -30,7 +30,6 @@ class App extends Component {
         return acc;
       }, {});
       this.setState({ items });
-      console.log(items);
     } catch (error) {
       console.log(error);
       this.setState({
@@ -43,8 +42,15 @@ class App extends Component {
     console.log(id);
   };
 
+  incrementCartClickHandler = async id => {
+    console.log(id);
+  };
+
+  decrementCartClickHandler = async id => {
+    console.log(id);
+  };
+
   componentDidMount() {
-    console.log('hi');
     this._getAllItems();
     this._restoreCartFromLocalStorageIfExists();
   }
@@ -93,6 +99,8 @@ class App extends Component {
             path="/checkout"
             render={routeProps => (
               <Checkout
+                icrementCartQuantityHandler={this.incrementCartClickHandler}
+                decrementCartQuantityHandler={this.decrementCartClickHandler}
                 {...routeProps}
                 itemsInCart={itemsInCart}
                 transactionInProcess={this.state.transactionInProcess}

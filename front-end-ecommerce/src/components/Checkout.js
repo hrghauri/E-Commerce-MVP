@@ -1,37 +1,75 @@
 import React, { Component } from 'react';
 import CartCard from './CartCard';
 
-export default function Checkout({
-  itemsInCart,
-  transactionInProcess,
-  icrementCartQuantityHandler,
-  decrementCartQuantityHandler,
-  buyHandler
-}) {
-  const onClickBuy = e => {
-    e.preventDefault();
-    console.log('hi');
+class Checkout extends Component {
+  state = {
+    emailValid: true,
+    emailValue: ''
   };
 
-  const getTotalCost = () => {
-    return itemsInCart.reduce((acc, currentItem) => {
+  validateEmail = value => {
+    return value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+  };
+
+  handleEmailChange = e => {
+    this.setState({ email: e.target.value });
+  };
+
+  completeBuyingProcess = () => {
+    this.props.history.push('/');
+  };
+
+  onClickBuy = e => {
+    e.preventDefault();
+
+    if (this.validateEmail(this.state.email)) {
+      this.completeBuyingProcess();
+    } else {
+      this.setState(
+        {
+          emailValid: false
+        },
+        () => {
+          setTimeout(() => {
+            this.setState({
+              emailValid: true
+            });
+          }, 1000);
+        }
+      );
+    }
+  };
+
+  getTotalCost = () => {
+    return this.props.itemsInCart.reduce((acc, currentItem) => {
       return acc + currentItem.price * currentItem.quantity;
     }, 0);
   };
 
-  const renderFooter = () => {
-    const sum = getTotalCost();
+  renderFooter = () => {
+    const sum = this.getTotalCost();
     return (
       <div>
         <div style={totalStyle}>Total: ${sum}</div>
 
         <form style={formStyle}>
           <div>Buy and send receipt</div>
+          <div />
           <label htmlFor="email">Email Address</label>
-          <input type="email" className="form-control" name="email" />
+          {!this.state.emailValid && (
+            <div style={validateEmailStyle}>
+              Please type the correct email address
+            </div>
+          )}
+          <input
+            type="email"
+            className="form-control"
+            name="email"
+            onChange={this.handleEmailChange}
+          />
           <button
             type="submit"
-            onClick={onClickBuy}
+            onClick={this.onClickBuy}
             className="btn btn-primary"
           >
             Buy
@@ -41,8 +79,8 @@ export default function Checkout({
     );
   };
 
-  const renderItemsList = () => {
-    return itemsInCart.map(item => {
+  renderItemsList = () => {
+    return this.props.itemsInCart.map(item => {
       return (
         <CartCard
           key={item.id}
@@ -53,25 +91,34 @@ export default function Checkout({
           inventory={item.inventory}
           description={item.description}
           itemId={item.id}
-          transactionInProcess={transactionInProcess}
-          icrementCartQuantityHandler={icrementCartQuantityHandler}
-          decrementCartQuantityHandler={decrementCartQuantityHandler}
+          transactionInProcess={this.props.transactionInProcess}
+          icrementCartQuantityHandler={this.props.icrementCartQuantityHandler}
+          decrementCartQuantityHandler={this.props.decrementCartQuantityHandler}
         />
       );
     });
   };
 
-  if (itemsInCart.length == 0) return <div>No Items in Cart</div>;
+  render() {
+    if (this.props.itemsInCart.length == 0) return <div>No Items in Cart</div>;
 
-  return (
-    <div>
-      <div className="container">
-        {renderItemsList()}
-        {renderFooter()}
+    return (
+      <div>
+        <div className="container">
+          {this.renderItemsList()}
+          {this.renderFooter()}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
+
+export default Checkout;
+
+const validateEmailStyle = {
+  fontWeight: 'bold',
+  color: 'red'
+};
 
 const totalStyle = {
   position: 'absolute',

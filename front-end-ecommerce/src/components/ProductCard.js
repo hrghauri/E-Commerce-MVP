@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, Label } from 'reactstrap';
+import { Card, CardBody, Label, CardImg } from 'reactstrap';
 import Button from 'reactstrap-button-loader';
 
 const ProductCard = ({
@@ -44,8 +44,21 @@ const ProductCard = ({
 
   return (
     <Card style={{ ...styles.productCard }}>
+      <CardImg
+        top
+        width="100%"
+        src={imageUrl}
+        alt="Product Picture"
+        onClick={popUpOnClick}
+        style={{ cursor: 'pointer' }}
+      />
       <CardBody>
-        <Label onClick={popUpOnClick}>{title}</Label>
+        <Label
+          style={{ fontWeight: 'bold', cursor: 'pointer' }}
+          onClick={popUpOnClick}
+        >
+          {title}
+        </Label>
         <p>Price: ${price}</p>
         {buttonRendering()}
       </CardBody>
