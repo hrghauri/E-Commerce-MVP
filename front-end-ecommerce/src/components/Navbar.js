@@ -14,7 +14,7 @@ export default function Nav_bar({ itemsInCart }) {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <Link to="/">ECommerce App</Link>
+        <Link to="/">ACME Inventory</Link>
         <Nav className="ml-auto" navbar>
           <Link to="/checkout/">{getCartText()}</Link>
         </Nav>

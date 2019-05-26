@@ -19,7 +19,6 @@ class App extends Component {
 
     try {
       if (cartId) {
-        console.log(cartId);
         const result = await cartService.getCartById(cartId);
         const cart = result.cart;
 
@@ -76,16 +75,42 @@ class App extends Component {
         }
       }
     );
-
-    console.log(itemId);
   };
 
-  incrementCartClickHandler = async id => {
-    console.log(id);
+  removeProductFromCartClickHandler = itemId => {
+    let cartId = localStorage.getItem('cartId');
+    this.setState(
+      {
+        transactionInProcess: true
+      },
+      async () => {
+        try {
+          const result = await cartService.removeProductFromCart(
+            cartId,
+            itemId
+          );
+          const cart = result.cart;
+          localStorage.setItem('cartId', cart._id);
+          this.setState({
+            cart,
+            transactionInProcess: false
+          });
+        } catch (error) {
+          console.log(error);
+          this.setState({
+            transactionInProcess: false
+          });
+        }
+      }
+    );
   };
 
-  decrementCartClickHandler = async id => {
-    console.log(id);
+  incrementCartClickHandler = itemId => {
+    this.addProductToCartClickHandler(itemId);
+  };
+
+  decrementCartClickHandler = itemId => {
+    this.removeProductFromCartClickHandler(itemId);
   };
 
   componentDidMount() {
