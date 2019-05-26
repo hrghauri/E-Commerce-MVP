@@ -8,7 +8,7 @@ const ProductCard = ({
   price,
   id,
   addProductToCartClickHandler,
-  transactionInProgress,
+  transactionInProcess,
   inventory
 }) => {
   const addToCartOnClick = () => {
@@ -28,7 +28,7 @@ const ProductCard = ({
       );
     }
 
-    if (transactionInProgress) {
+    if (transactionInProcess) {
       return (
         <Button loading={true} color="primary" onClick={addToCartOnClick}>
           Add to Cart
@@ -42,6 +42,16 @@ const ProductCard = ({
     );
   };
 
+  const labelStyle = () => {
+    return !transactionInProcess
+      ? { fontWeight: 'bold', cursor: 'pointer' }
+      : { fontWeight: 'bold' };
+  };
+
+  const cardImageStyle = () => {
+    return !transactionInProcess ? { cursor: 'pointer' } : {};
+  };
+
   return (
     <Card style={{ ...styles.productCard }}>
       <CardImg
@@ -49,13 +59,13 @@ const ProductCard = ({
         width="100%"
         src={imageUrl}
         alt="Product Picture"
-        onClick={popUpOnClick}
-        style={{ cursor: 'pointer' }}
+        onClick={!transactionInProcess ? popUpOnClick : () => {}}
+        style={cardImageStyle()}
       />
       <CardBody>
         <Label
-          style={{ fontWeight: 'bold', cursor: 'pointer' }}
-          onClick={popUpOnClick}
+          style={labelStyle()}
+          onClick={!transactionInProcess ? popUpOnClick : () => {}}
         >
           {title}
         </Label>

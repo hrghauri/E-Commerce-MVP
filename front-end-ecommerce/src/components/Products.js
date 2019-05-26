@@ -1,7 +1,11 @@
 import React from 'react';
 import ProductCart from './ProductCard';
 
-const Products = ({ itemsList, addProductToCartClickHandler }) => {
+const Products = ({
+  itemsList,
+  addProductToCartClickHandler,
+  transactionInProcess
+}) => {
   const renderItemsList = () => {
     return itemsList.map(item => {
       return (
@@ -13,6 +17,7 @@ const Products = ({ itemsList, addProductToCartClickHandler }) => {
           id={item._id}
           inventory={item.inventory}
           addProductToCartClickHandler={addProductToCartClickHandler}
+          transactionInProcess={transactionInProcess}
         />
       );
     });

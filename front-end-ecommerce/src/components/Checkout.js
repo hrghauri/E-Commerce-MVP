@@ -100,7 +100,7 @@ class Checkout extends Component {
   };
 
   render() {
-    if (this.props.itemsInCart.length == 0) return <div>No Items in Cart</div>;
+    if (this.props.itemsInCart.length === 0) return <div>No Items in Cart</div>;
 
     return (
       <div>

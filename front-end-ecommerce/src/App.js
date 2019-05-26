@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Products from './components/Products';
 import Checkout from './components/Checkout';
 import itemsService from './services/itemsService';
+import cartService from './services/cartService';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
 
@@ -13,11 +14,23 @@ class App extends Component {
     transactionInProcess: false
   };
 
-  _restoreCartFromLocalStorageIfExists = () => {
-    let cart = localStorage.getItem('cart');
-    if (cart) {
+  _restoreCartFromLocalStorageIfExists = async () => {
+    let cartId = localStorage.getItem('cartId');
+
+    try {
+      if (cartId) {
+        console.log(cartId);
+        const result = await cartService.getCartById(cartId);
+        const cart = result.cart;
+
+        this.setState({
+          cart
+        });
+      }
+    } catch (error) {
+      console.log(error);
       this.setState({
-        cart: JSON.parse(cart)
+        mainApplicationError: true
       });
     }
   };
@@ -38,8 +51,33 @@ class App extends Component {
     }
   };
 
-  addProductToCartClickHandler = async id => {
-    console.log(id);
+  addProductToCartClickHandler = itemId => {
+    let cartId = localStorage.getItem('cartId');
+    this.setState(
+      {
+        transactionInProcess: true
+      },
+      async () => {
+        try {
+          let result;
+          if (cartId) result = await cartService.addToCart(cartId, itemId);
+          else result = await cartService.createCart(itemId);
+          const cart = result.cart;
+          localStorage.setItem('cartId', cart._id);
+          this.setState({
+            cart,
+            transactionInProcess: false
+          });
+        } catch (error) {
+          console.log(error);
+          this.setState({
+            transactionInProcess: false
+          });
+        }
+      }
+    );
+
+    console.log(itemId);
   };
 
   incrementCartClickHandler = async id => {

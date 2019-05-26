@@ -21,5 +21,4 @@ export default function Nav_bar({ itemsInCart }) {
       </Navbar>
     </div>
   );
-  return <div />;
 }

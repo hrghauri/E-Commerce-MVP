@@ -1,6 +1,4 @@
 import React from 'react';
-import { Card, CardImg, Label } from 'reactstrap';
-import Img from 'react-image';
 
 export default function CartCard({
   currentQty,
