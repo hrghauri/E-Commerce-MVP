@@ -4,7 +4,8 @@ import ProductCart from './ProductCard';
 const Products = ({
   itemsList,
   addProductToCartClickHandler,
-  transactionInProcess
+  transactionInProcess,
+  popUpOnClick
 }) => {
   const renderItemsList = () => {
     return itemsList.map(item => {
@@ -18,6 +19,7 @@ const Products = ({
           inventory={item.inventory}
           addProductToCartClickHandler={addProductToCartClickHandler}
           transactionInProcess={transactionInProcess}
+          popUpOnClick={popUpOnClick}
         />
       );
     });

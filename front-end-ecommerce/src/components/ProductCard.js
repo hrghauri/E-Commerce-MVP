@@ -9,14 +9,15 @@ const ProductCard = ({
   id,
   addProductToCartClickHandler,
   transactionInProcess,
-  inventory
+  inventory,
+  popUpOnClick
 }) => {
   const addToCartOnClick = () => {
     addProductToCartClickHandler(id);
   };
 
-  const popUpOnClick = () => {
-    console.log(id);
+  const popUpOnClickLocal = () => {
+    popUpOnClick(id);
   };
 
   const buttonRendering = () => {
@@ -59,13 +60,13 @@ const ProductCard = ({
         width="100%"
         src={imageUrl}
         alt="Product Picture"
-        onClick={!transactionInProcess ? popUpOnClick : () => {}}
+        onClick={!transactionInProcess ? popUpOnClickLocal : () => {}}
         style={cardImageStyle()}
       />
       <CardBody>
         <Label
           style={labelStyle()}
-          onClick={!transactionInProcess ? popUpOnClick : () => {}}
+          onClick={!transactionInProcess ? popUpOnClickLocal : () => {}}
         >
           {title}
         </Label>

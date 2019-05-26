@@ -6,13 +6,22 @@ import cartService from './services/cartService';
 import orderService from './services/orderService';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 class App extends Component {
   state = {
     cart: {},
     items: {},
     mainApplicationError: false,
-    transactionInProcess: false
+    transactionInProcess: false,
+    modal: false,
+    modalItemId: ''
+  };
+
+  toggleModal = () => {
+    this.setState(prevState => ({
+      modal: !prevState
+    }));
   };
 
   _restoreCartFromLocalStorageIfExists = async () => {
@@ -134,6 +143,56 @@ class App extends Component {
     this._restoreCartFromLocalStorageIfExists();
   }
 
+  popUpOnClick = itemId => {
+    this.setState({
+      modal: true,
+      modalItemId: itemId
+    });
+  };
+
+  modalAddToCartClick = () => {
+    this.toggleModal();
+    this.addProductToCartClickHandler(this.state.modalItemId);
+  };
+
+  renderModal = () => {
+    if (!this.state.items[this.state.modalItemId]) return <div />;
+
+    const item = this.state.items[this.state.modalItemId];
+
+    return (
+      <div>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggleModal}
+          className={this.props.className}
+        >
+          <ModalHeader
+            toggle={this.toggleModal}
+            cssModule={{ 'modal-title': 'w-100 text-center' }}
+          >
+            {item.title}
+          </ModalHeader>
+          <img src={item.imageUrl} alt="Product Picture" />
+          <ModalBody>{item.description}</ModalBody>
+          <ModalFooter>
+            <p style={{ position: 'relative', right: '200px' }}>
+              Price: ${item.price}
+            </p>
+            {item.inventory > 0 && (
+              <Button color="primary" onClick={this.modalAddToCartClick}>
+                Add To Cart
+              </Button>
+            )}
+            <Button color="secondary" onClick={this.toggleModal}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </div>
+    );
+  };
+
   render() {
     if (this.state.mainApplicationError) return <div>Error Occured</div>;
 
@@ -159,6 +218,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Navbar itemsInCart={itemsInCart} />
+        {this.renderModal()}
         <Switch>
           <Route
             exact
@@ -169,6 +229,7 @@ class App extends Component {
                 itemsList={Object.values(this.state.items)}
                 transactionInProcess={this.state.transactionInProcess}
                 addProductToCartClickHandler={this.addProductToCartClickHandler}
+                popUpOnClick={this.popUpOnClick}
               />
             )}
           />
