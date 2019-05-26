@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import CartCard from './CartCard';
+import orderService from '../services/orderService';
 
 class Checkout extends Component {
   state = {
     emailValid: true,
-    emailValue: ''
+    email: ''
   };
 
   validateEmail = value => {
@@ -15,15 +16,12 @@ class Checkout extends Component {
     this.setState({ email: e.target.value });
   };
 
-  completeBuyingProcess = () => {
-    this.props.history.push('/');
-  };
-
-  onClickBuy = e => {
+  onClickBuy = async e => {
     e.preventDefault();
 
     if (this.validateEmail(this.state.email)) {
-      this.completeBuyingProcess();
+      await this.props.completeBuyingProcess(this.state.email);
+      this.props.history.push('/');
     } else {
       this.setState(
         {

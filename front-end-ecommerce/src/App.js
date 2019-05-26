@@ -3,6 +3,7 @@ import Products from './components/Products';
 import Checkout from './components/Checkout';
 import itemsService from './services/itemsService';
 import cartService from './services/cartService';
+import orderService from './services/orderService';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
 
@@ -105,6 +106,21 @@ class App extends Component {
     );
   };
 
+  completeBuyingProcess = async email => {
+    try {
+      await orderService.createOrder(
+        localStorage.getItem('cartId'),
+        email,
+        Date()
+      );
+      localStorage.clear();
+      this._getAllItems();
+      this.setState({ cart: {} });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   incrementCartClickHandler = itemId => {
     this.addProductToCartClickHandler(itemId);
   };
@@ -169,6 +185,7 @@ class App extends Component {
                 transactionInProcess={this.state.transactionInProcess}
                 addProductToCartClickHandler={this.addProductToCartClickHandler}
                 message="Dunia"
+                completeBuyingProcess={this.completeBuyingProcess}
               />
             )}
           />
