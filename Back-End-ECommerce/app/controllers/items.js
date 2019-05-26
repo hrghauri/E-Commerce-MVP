@@ -2,7 +2,9 @@ const itemsRepository = require('../repositories/items');
 
 const getAllItems = async (req, res, next) => {
   try {
+    console.log('ya');
     const result = await itemsRepository.getAllItems();
+
     return res.status(200).send({ items: result });
   } catch (error) {
     return next(error);

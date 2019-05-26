@@ -1,21 +1,53 @@
 import React from 'react';
-import { Card, CardBody, Button, Label } from 'reactstrap';
+import { Card, CardBody, Label } from 'reactstrap';
+import Button from 'reactstrap-button-loader';
 
-const ProductCard = ({ title, imageUrl, price, id }) => {
+const ProductCard = ({
+  title,
+  imageUrl,
+  price,
+  id,
+  addProductToCartClickHandler,
+  transactionInProgress,
+  inventory
+}) => {
   const addToCartOnClick = () => {
-    console.log(id);
+    addProductToCartClickHandler(id);
   };
 
   const popUpOnClick = () => {
     console.log(id);
   };
 
+  const buttonRendering = () => {
+    if (!inventory) {
+      return (
+        <Button disabled color="secondary" onClick={addToCartOnClick}>
+          Out of stock
+        </Button>
+      );
+    }
+
+    if (transactionInProgress) {
+      return (
+        <Button loading={true} color="primary" onClick={addToCartOnClick}>
+          Add to Cart
+        </Button>
+      );
+    }
+    return (
+      <Button color="primary" onClick={addToCartOnClick}>
+        Add to Cart
+      </Button>
+    );
+  };
+
   return (
     <Card style={{ ...styles.productCard }}>
       <CardBody>
         <Label onClick={popUpOnClick}>{title}</Label>
-        <p>{price}</p>
-        <Button onClick={addToCartOnClick}>Add to Cart</Button>
+        <p>Price: ${price}</p>
+        {buttonRendering()}
       </CardBody>
     </Card>
   );
@@ -23,9 +55,8 @@ const ProductCard = ({ title, imageUrl, price, id }) => {
 
 const styles = {
   productCard: {
-    display: 'flex',
-    flexDirection: 'row',
-    minWidth: '180px'
+    display: 'inline-block',
+    maxWidth: '200px'
   }
 };
 

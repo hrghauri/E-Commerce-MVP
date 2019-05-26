@@ -7,8 +7,11 @@
     "bootstrap": "^4.3.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-image": "^2.1.1",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
-    "reactstrap": "^8.0.0"
+    "reactstrap": "^8.0.0",
+    "reactstrap-button-loader": "^1.0.15"
   },
   "scripts": {
     "start": "react-scripts start",

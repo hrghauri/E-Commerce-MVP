@@ -25,7 +25,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cors());
+app.use(cors());
 
 appRouter.use('/carts', cartsRouter);
 appRouter.use('/items', itemsRouter);

@@ -1,23 +1,24 @@
 import React from 'react';
-import {} from 'reactstrap';
+import ProductCart from './ProductCard';
 
-const Products = itemsList => {
-  return (
-    <Card style={{ ...styles.productCard }}>
-      <CardBody>
-        <Label onClick={popUpOnClick}>{title}</Label>
-        <p>{price}</p>
-        <Button onClick={addToCartOnClick}>Add to Cart</Button>
-      </CardBody>
-    </Card>
-  );
+const Products = ({ itemsList, addProductToCartClickHandler }) => {
+  const renderItemsList = () => {
+    return itemsList.map(item => {
+      return (
+        <ProductCart
+          key={item._id}
+          title={item.title}
+          price={item.price}
+          imageUrl={item.imageUrl}
+          id={item._id}
+          inventory={item.inventory}
+          addProductToCartClickHandler={addProductToCartClickHandler}
+        />
+      );
+    });
+  };
+
+  return <div className="container">{renderItemsList()}</div>;
 };
 
-const styles = {
-  products: {
-    display: 'flex',
-    flexDirection: 'row'
-  }
-};
-
-export default ProductCard;
+export default Products;
