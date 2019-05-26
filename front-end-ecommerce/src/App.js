@@ -45,6 +45,8 @@ class App extends Component {
   };
 
   _getAllItems = async () => {
+    console.log('m called');
+
     try {
       const itemsArray = (await itemsService.getAllItems()).items;
       const items = itemsArray.reduce((acc, currentItem) => {
@@ -73,7 +75,10 @@ class App extends Component {
           else result = await cartService.createCart(itemId);
           const cart = result.cart;
           localStorage.setItem('cartId', cart._id);
+          let items = this.state.items;
+          items[itemId].inventory--;
           this.setState({
+            items,
             cart,
             transactionInProcess: false
           });
@@ -101,7 +106,10 @@ class App extends Component {
           );
           const cart = result.cart;
           localStorage.setItem('cartId', cart._id);
+          let items = this.state.items;
+          items[itemId].inventory++;
           this.setState({
+            items,
             cart,
             transactionInProcess: false
           });
@@ -116,7 +124,11 @@ class App extends Component {
   };
 
   completeBuyingProcess = async email => {
+    const setStateAsync = updater =>
+      new Promise(resolve => this.setState(updater, resolve));
+
     try {
+      await setStateAsync({ transactionInProcess: true });
       await orderService.createOrder(
         localStorage.getItem('cartId'),
         email,
@@ -124,8 +136,9 @@ class App extends Component {
       );
       localStorage.clear();
       this._getAllItems();
-      this.setState({ cart: {} });
+      await setStateAsync({ transactionInProcess: false, cart: {} });
     } catch (error) {
+      await setStateAsync({ transactionInProcess: false });
       console.log(error);
     }
   };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CartCard from './CartCard';
-import orderService from '../services/orderService';
+import Button from 'reactstrap-button-loader';
 
 class Checkout extends Component {
   state = {
@@ -65,13 +65,14 @@ class Checkout extends Component {
             name="email"
             onChange={this.handleEmailChange}
           />
-          <button
+          <Button
+            loading={this.props.transactionInProcess}
             type="submit"
             onClick={this.onClickBuy}
-            className="btn btn-primary"
+            color="primary"
           >
             Buy
-          </button>
+          </Button>
         </form>
       </div>
     );
