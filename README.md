@@ -39,15 +39,15 @@ Services is where the API is defined.
 ### Back-End
 
 The Back-End of the application consists of:
-1)Index.js
-2)Third Party
-3)Custom Middleware
-4)Supporting Database files
+1) Index.js
+2) Third Party
+3) Custom Middleware
+4) Supporting Database files
 
 
 Index.js is the starting point of the application. The is where the third party middlewares are registered and the initial routes are declared.
 
-Third Party are some of the supporting libraries which help in initial parsing of the request or implementing CORS.
+Third Party middlewares are some of the supporting libraries which help in initial parsing of the request or implementing CORS.
 
 Custom Middleware are registered with the routes to allow the request to follow a certain pipeline and can be responded with appropriate response.
 
