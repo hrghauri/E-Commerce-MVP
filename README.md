@@ -53,9 +53,9 @@ Custom Middleware are registered with the routes to allow the request to follow 
 
 Supporting Database files (Repository and Model) are just modules to interface with the database.
 
-### Technology used: 
+### Main Technologies used: 
 * Node.js v8.15.1 --- Express
-* MongoDB
+* MongoDB --- mongoose
 * Create React App
 
 ### How to run in your environment:
