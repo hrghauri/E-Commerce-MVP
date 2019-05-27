@@ -66,7 +66,8 @@ Supporting Database files (Repository and Model) are just modules to interface w
   * Back-End-ECommerce/mongoDBConfig/key.js
   * Back-End-ECommerce/app/services/emailSecrets.js for Email
   * front-end-ecommerce/src/api/api.js
-4) npm start Both ends :) 
+4) npm install 
+5) npm start :) (Both)
 
 
 
