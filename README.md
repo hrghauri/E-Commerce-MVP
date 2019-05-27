@@ -3,7 +3,7 @@
 ## About
 This is a simple E-Commerce application. It allows users to add multiple items into the cart multiple times, delete items from the cart and checkout those items. The inventory/Stock is kept in synchrony during the whole checkout process. The items with 0 inventory can not be added into the cart. By repeatedly, adding the item  into the cart, the user can bring its inventory count to 0, at which point, it can no longer be added into the cart. However, if the user decides to release it ( as in the second page of the application), the item will be able to be added into the cart again.
 
-If the user happens to close the browser whilst in the middle of transaction, the cart information can be retrieved by just going back to the website. At the end of the checkout i.e when the transaction has been completed, the cart session gets destroyed and the user receives a receipt which details all the item he/she has bought.
+If the user happens to close the browser whilst in the middle of transaction, the cart information can be retrieved by just going back to the website. At the end of the checkout i.e when the transaction has been completed, the cart session gets destroyed and the user receives a receipt in his/her email which details all the item he/she has bought.
 
 The application has two pages
 1) Main page
