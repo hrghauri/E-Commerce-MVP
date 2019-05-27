@@ -4,7 +4,7 @@ const itemsRepository = require('./items');
 const createCart = async itemId => {
   const item = await itemsRepository.getItemById(itemId);
   if (item && item.inventory > 0) {
-    let cart = new Cart({ status: 'inProcess' });
+    let cart = new Cart({ status: 'inProcess', serverTime: Date() });
     cart.itemsQuantities.push({
       item: itemId,
       quantity: 1
@@ -14,6 +14,7 @@ const createCart = async itemId => {
 
     cart = JSON.parse(JSON.stringify(cart));
     delete cart.status;
+    delete cart.serverTime;
 
     cart.itemsQuantities = cart.itemsQuantities.reduce((acc, itemQuantity) => {
       acc[itemQuantity.item] = itemQuantity.quantity;
@@ -33,6 +34,7 @@ const getCartByIdForOutsideWorld = async cartId => {
 
   cart = JSON.parse(JSON.stringify(cart));
   delete cart.status;
+  delete cart.serverTime;
   cart.itemsQuantities = cart.itemsQuantities.reduce((acc, itemQuantity) => {
     acc[itemQuantity.item] = itemQuantity.quantity;
     return acc;
@@ -62,6 +64,7 @@ const incrementInCart = async (cartId, itemId) => {
   }
 
   cart.itemsQuantities = stringifiedCart.itemsQuantities;
+  cart.serverTime = Date();
   await Promise.all([
     cart.save(),
     itemsRepository.decrementItemInventory(itemId)
@@ -76,6 +79,7 @@ const incrementInCart = async (cartId, itemId) => {
   );
 
   delete stringifiedCart.status;
+  delete stringifiedCart.serverTime;
 
   return stringifiedCart;
 };
@@ -101,6 +105,7 @@ const decrementFromCart = async (cartId, itemId) => {
   } else itemInCart.quantity = itemOldQuantityInACart - 1;
 
   cart.itemsQuantities = stringifiedCart.itemsQuantities;
+  cart.serverTime = Date();
   await Promise.all([
     cart.save(),
     itemsRepository.incrementItemInventory(itemId)
@@ -115,6 +120,7 @@ const decrementFromCart = async (cartId, itemId) => {
   );
 
   delete stringifiedCart.status;
+  delete stringifiedCart.serverTime;
 
   return stringifiedCart;
 };
@@ -122,6 +128,7 @@ const decrementFromCart = async (cartId, itemId) => {
 const changeCartStatus = async (cartId, status) => {
   let cart = await getCartById(cartId);
   cart.status = status;
+  cart.serverTime = Date();
   return cart.save();
 };
 
