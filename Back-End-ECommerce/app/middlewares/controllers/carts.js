@@ -1,4 +1,4 @@
-const cartsRepository = require('../repositories/cart');
+const cartsRepository = require('../../repositories/cart');
 
 const createCart = async (req, res, next) => {
   console.log(req.body);

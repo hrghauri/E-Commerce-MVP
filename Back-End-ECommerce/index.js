@@ -25,7 +25,31 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
+const whitelist = [
+  'http://localhost:3000',
+  'https://front-end-app-dot-testproject-241518.appspot.com'
+];
+const corsOptions = {
+  origin: function(origin, callback) {
+    //Allow places that either have no origin (postman) or they are contained in the whitelist
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+      return;
+    } else {
+      //Block everything else
+      callback(
+        new Error(
+          'The CORS policy for this site does not allow access from the specified Origin.'
+        ),
+        false
+      );
+      return;
+    }
+  }
+};
+
+app.use(cors(corsOptions));
 
 appRouter.use('/carts', cartsRouter);
 appRouter.use('/items', itemsRouter);
@@ -46,7 +70,7 @@ appRouter.use((err, req, res, next) => {
 
   //respond to ourselves by properly logging the error
   //for now console.log will just do fine
-  console.log(err);
+  console.log(err.message);
 
   //respond to the client
   res.status(status).send({

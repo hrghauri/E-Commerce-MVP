@@ -4,6 +4,7 @@ const options = require('./options');
 
 const cartSchema = new Schema(
   {
+    serverTime: String,
     itemsQuantities: [
       {
         _id: false,
