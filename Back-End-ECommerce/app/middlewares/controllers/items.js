@@ -1,4 +1,4 @@
-const itemsRepository = require('../repositories/items');
+const itemsRepository = require('../../repositories/items');
 
 const getAllItems = async (req, res, next) => {
   try {

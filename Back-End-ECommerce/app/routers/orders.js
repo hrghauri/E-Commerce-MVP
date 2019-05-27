@@ -1,8 +1,13 @@
 const express = require('express');
-const ordersController = require('../controllers/orders');
+const ordersController = require('../middlewares/controllers/orders');
+const ordersValidator = require('../middlewares/validators/order');
 
 const ordersRouter = express.Router();
 
-ordersRouter.post('/', ordersController.createOrder);
+ordersRouter.post(
+  '/',
+  ordersValidator.validateCreateOrder,
+  ordersController.createOrder
+);
 
 module.exports = ordersRouter;

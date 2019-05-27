@@ -46,7 +46,7 @@ appRouter.use((err, req, res, next) => {
 
   //respond to ourselves by properly logging the error
   //for now console.log will just do fine
-  console.log(err);
+  console.log(err.message);
 
   //respond to the client
   res.status(status).send({

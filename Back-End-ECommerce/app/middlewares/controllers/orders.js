@@ -1,4 +1,4 @@
-const ordersRepository = require('../repositories/order');
+const ordersRepository = require('../../repositories/order');
 
 const createOrder = async (req, res, next) => {
   const cartId = req.body.cartId;
